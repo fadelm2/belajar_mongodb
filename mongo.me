@@ -1,0 +1,45 @@
+test> use belajar_mongodb
+switched to db belajar_mongodb
+belajar_mongodb> show collections
+show collections
+
+belajar_mongodb> show collections
+
+belajar_mongodb> db.create
+db.createUser                 db.createCollection           db.createEncryptedCollection  db.createView                 db.createRole
+
+belajar_mongodb> db.createCollection("customers");
+{ ok: 1 }
+belajar_mongodb> show collections
+customers
+belajar_mongodb> db.createCollection("products");
+{ ok: 1 }
+belajar_mongodb> db.createCollection("orders");
+{ ok: 1 }
+belajar_mongodb> db.getCollectionNames
+[Function: getCollectionNames] AsyncFunction {
+  apiVersions: [ 1, Infinity ],
+  returnsPromise: true,
+  serverVersions: [ '0.0.0', '999.999.999' ],
+  topologies: [ 'ReplSet', 'Sharded', 'LoadBalanced', 'Standalone' ],
+  returnType: { type: 'unknown', attributes: {} },
+  deprecated: false,
+  platforms: [ 'Compass', 'Browser', 'CLI' ],
+  isDirectShellCommand: false,
+  acceptsRawInput: false,
+  shellCommandCompleter: undefined,
+  newShellCommandCompleter: undefined,
+  help: [Function (anonymous)] Help
+}
+belajar_mongodb> db.getCollectionNames();
+[ 'orders', 'products', 'customers' ]
+belajar_mongodb>
+
+belajar_mongodb> db.getCollectionNames();
+[ 'orders', 'products', 'customers' ]
+belajar_mongodb> db.customers.insertOne({
+...     _id: "fadel",
+...     name: "Fadel Muhammad"
+... })
+{ acknowledged: true, insertedId: 'fadel' }
+belajar_mongodb>
