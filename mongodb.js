@@ -15,24 +15,24 @@ db.customers.insertOne({
 
 db.orders.insertMany([
     {
-        _id:3,
+        _id: 3,
         name: "Indomie Goreng"
     }
 ])
 
 
 db.customers.find({
-    _id:"fadel",
+    _id: "fadel",
 })
 
 
 db.orders.find({
-    product_id:"3",
+    product_id: "3",
 })
 
 
 db.orders.deleteOne({
-    _id:"3",
+    _id: "3",
 });
 
 
@@ -45,13 +45,13 @@ db.customers.find({
 })
 
 db.products.find({
-    price:2000
+    price: 2000
 })
 
 db.orders.insertOne({
     _id: new ObjectId(),
     total: new NumberLong("8000"),
-    items:[
+    items: [
         {
             product_id: 1,
             price: new NumberLong("2000"),
@@ -92,7 +92,7 @@ db.products.insertMany([
 
 
 db.customers.find({
-    _id:{
+    _id: {
         $eq: "fadel"
     }
 })
@@ -108,5 +108,80 @@ db.products.find({
     price: {
         $lte: 2000 // Membandingkan value lebih besar atau sama dengan value lain
 
+    }
+})
+
+
+db.products.find({
+    category: {
+        $in: ["laptop", "handphone"],
+    },
+    price: {
+        $gt: 10000000
+    }
+})
+
+
+db.products.find({
+    $and: [
+        {
+            category: {
+                $in: ["laptop", "handphone"]
+            }
+        },
+        {
+            price: {
+                $gt: 10000000
+            }
+        }
+    ]
+})
+
+
+db.products.find({
+    category: {
+        $not: {
+            $in: ['laptop', 'handphone']
+        }
+    }
+})
+
+db.products.find({
+    category: {
+        $exists: true
+    }
+})
+db.products.find({
+    category: {
+        $exists: false
+    }
+})
+
+db.products.find({
+    category: {
+        $type: "string"
+    }
+})
+
+db.products.find({
+    price: {
+        $type: ['int', 'long']
+    }
+})
+
+db.customers.insertOne({
+    _id: 'joko',
+    name: 'joko'
+})
+
+db.customers.find({
+    $expr: {
+        $eq: ['$_id', '$name']
+    }
+})
+
+db.products.find({
+    $jsonSchema: {
+        required: ['name', 'category']
     }
 })
