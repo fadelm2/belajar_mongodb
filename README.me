@@ -1,0 +1,169 @@
+test> use belajar_mongodb
+switched to db belajar_mongodb
+belajar_mongodb> show collections
+show collections
+
+belajar_mongodb> show collections
+
+belajar_mongodb> db.create
+db.createUser                 db.createCollection           db.createEncryptedCollection  db.createView                 db.createRole
+
+belajar_mongodb> db.createCollection("customers");
+{ ok: 1 }
+belajar_mongodb> show collections
+customers
+belajar_mongodb> db.createCollection("products");
+{ ok: 1 }
+belajar_mongodb> db.createCollection("orders");
+{ ok: 1 }
+belajar_mongodb> db.getCollectionNames
+[Function: getCollectionNames] AsyncFunction {
+  apiVersions: [ 1, Infinity ],
+  returnsPromise: true,
+  serverVersions: [ '0.0.0', '999.999.999' ],
+  topologies: [ 'ReplSet', 'Sharded', 'LoadBalanced', 'Standalone' ],
+  returnType: { type: 'unknown', attributes: {} },
+  deprecated: false,
+  platforms: [ 'Compass', 'Browser', 'CLI' ],
+  isDirectShellCommand: false,
+  acceptsRawInput: false,
+  shellCommandCompleter: undefined,
+  newShellCommandCompleter: undefined,
+  help: [Function (anonymous)] Help
+}
+belajar_mongodb> db.getCollectionNames();
+[ 'orders', 'products', 'customers' ]
+belajar_mongodb>
+
+belajar_mongodb> db.getCollectionNames();
+[ 'orders', 'products', 'customers' ]
+belajar_mongodb> db.customers.insertOne({
+...     _id: "fadel",
+...     name: "Fadel Muhammad"
+... })
+{ acknowledged: true, insertedId: 'fadel' }
+belajar_mongodb>
+
+2. Database & Collection
+use belajar_mongodb        // masuk / buat database
+show dbs                  // lihat database
+show collections          // lihat collection
+
+db.createCollection("customers")
+db.createCollection("products")
+db.createCollection("orders")
+
+3. Insert Data (CREATE)
+db.customers.insertOne({
+  _id: "fadel",
+  name: "Fadel Muhammad"
+})
+
+db.products.insertMany([
+  { _id: 1, name: "Indomie", price: 2000, category: "food" },
+  { _id: 2, name: "Laptop", price: 25000000, category: "laptop" }
+])
+
+4. Read / Query Data (READ)
+db.customers.find()
+db.customers.find({ _id: "fadel" })
+db.products.find({ price: 2000 })
+
+Operator penting
+$eq  sama dengan
+$gt  lebih besar
+$gte lebih besar/sama
+$lt  lebih kecil
+$lte lebih kecil/sama
+$in  termasuk list
+
+db.products.find({
+  category: { $in: ["laptop", "handphone"] },
+  price: { $gt: 10000000 }
+})
+
+5. Update Data (UPDATE)
+db.customers.updateOne(
+  { _id: "fadel" },
+  { $set: { name: "Fadel M" } }
+)
+
+db.products.updateMany(
+  { category: "food" },
+  { $set: { active: true } }
+)
+
+6. Delete Data (DELETE)
+db.customers.deleteOne({ _id: "fadel" })
+db.products.deleteMany({ active: false })
+
+7. Array & Nested Document
+db.orders.insertOne({
+  total: 8000,
+  items: [
+    { product_id: 1, price: 2000, qty: 2 },
+    { product_id: 2, price: 2000, qty: 2 }
+  ]
+})
+
+db.orders.find({
+  "items.product_id": 1
+})
+
+8. Regex (Search Teks)
+db.products.find({
+  name: { $regex: /mie/, $options: "i" }
+})
+
+db.products.find({
+  name: { $regex: /^Mie/ }
+})
+
+9. Cek Field & Tipe Data
+db.products.find({ category: { $exists: true } })
+db.products.find({ price: { $type: "number" } })
+
+10. Expression (Bandingin Field)
+db.customers.find({
+  $expr: { $eq: ["$_id", "$name"] }
+})
+
+11. Validasi Schema (Filter)
+db.products.find({
+  $jsonSchema: {
+    required: ["name", "price"],
+    properties: {
+      name: { type: "string" },
+      price: { type: "number" }
+    }
+  }
+})
+
+12. Index (WAJIB BACKEND)
+db.products.createIndex({ name: 1 })
+db.products.createIndex({ price: -1 })
+db.products.getIndexes()
+
+13. Aggregation (Ringkas)
+db.orders.aggregate([
+  { $unwind: "$items" },
+  {
+    $group: {
+      _id: "$items.product_id",
+      totalQty: { $sum: "$items.qty" }
+    }
+  }
+])
+
+14. MongoDB + Docker (Recap)
+docker run -d \
+  --name mongodb-belajar \
+  -p 27017:27017 \
+  -v ~/mongo-data:/data/db \
+  mongo
+
+
+Connection:
+
+mongodb://localhost:27017/belajar_mongodb
+

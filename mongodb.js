@@ -185,3 +185,66 @@ db.products.find({
         required: ['name', 'category']
     }
 })
+
+db.products.find({
+    $jsonSchema: {
+        required: ['name'],
+        properties: {
+            name: {
+                type: 'string'
+            },
+            price: {
+                type: 'number'
+            },
+            category: {
+                type: 'string'
+            }
+        }
+    }
+})
+
+
+db.products.find({
+    $jsonSchema: {
+        required: ['name'],
+        properties: {
+            name: {
+                type: 'string'
+            },
+            price: {
+                type: 'number'
+            }
+        }
+    }
+})
+
+db.products.find({
+    price: {
+        $mod: [5, 0]
+    }
+})
+
+db.products.find({
+    price: {
+        $mod: [1000000, 0]
+    }
+})
+
+db.products.find({
+    name: {
+        $regex: /mie/,
+        $options: 'i'
+    }
+})
+
+db.products.find({
+    name: {
+        $regex: /^Mie/
+    }
+})
+
+db.products.find({
+    tags: {
+        $size: 3
+    }
+})
