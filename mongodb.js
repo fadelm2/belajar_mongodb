@@ -248,3 +248,190 @@ db.products.find({
         $size: 3
     }
 })
+
+db.products.find({
+    tags: {
+        $size: 4
+    }
+})
+
+db.products.find({}, {
+    name: 1,
+    category: 1
+})
+
+db.products.find({}, {
+    tags: 0,
+    price: 0
+})
+
+db.products.find({}, {
+    name: 1,
+    tags: {
+        $elemMatch: {
+            $in: ['samsung', 'logitech', 'accessories']
+        }
+    }
+})
+
+
+db.products.find({
+    tags: {
+        $exists: true
+    }
+}, {
+    name: 1,
+    "tags.$": 1
+})
+
+db.products.find({
+    tags: {
+        $exists: true
+    }
+}, {
+    name: 1,
+    tags: {
+        $slice: 2
+    }
+})
+
+db.products.find({}).count()
+
+db.products.find({}).limit(4)
+
+db.products.find({}).skip(2).limit(4)
+
+db.products.find({}).sort({
+    category: 1,
+    name: -1
+}).limit(4)
+
+db.products.updateOne({
+    _id: 1
+}, {
+    $set: {
+        category: 'food'
+    }
+})
+
+db.products.updateOne({
+    _id: 2
+}, {
+    $set: {
+        category: 'food'
+    }
+})
+
+db.products.updateMany({
+    $and: [
+        {
+            category: {
+                $eq: 'food'
+            }
+        },
+        {
+            tags: {
+                $exists: false
+            }
+        }
+    ]
+}, {
+    $set: {
+        tags: ['food']
+    }
+})
+
+db.products.insertOne({
+    _id: 9,
+    name: 'ups salah',
+    wrong: 'salah'
+})
+
+db.products.replaceOne({
+    _id: 9
+}, {
+    name: 'Adidas Sepatu Lari Pria',
+    price: new NumberLong("1100000"),
+    category: "shoes",
+    tags: [
+        'adidas', 'shoes', 'running'
+    ]
+})
+
+db.products.updateMany({}, {
+    $set: {
+        stock: 0
+    }
+})
+
+db.products.updateMany({}, {
+    $inc: {
+        stock: 10
+    }
+})
+
+db.customers.updateMany({}, {
+    $rename: {
+        name: 'full_name'
+    }
+})
+
+db.customers.updateMany({}, {
+    $set: {
+        wrong: 'ups'
+    }
+})
+
+db.customers.updateMany({}, {
+    $unset: {
+        wrong: ''
+    }
+})
+
+db.products.updateMany({}, {
+    $currentDate: {
+        lastModifiedDate: {
+            $type: 'date'
+        }
+    }
+})
+
+db.products.updateMany({}, {
+    $set: {
+        ratings: [90, 80, 70]
+    }
+})
+
+db.products.updateMany({
+    ratings: 90
+}, {
+    $set: {
+        'ratings.$': 100
+    }
+})
+
+db.products.updateMany({}, {
+    $set: {
+        'ratings.$[]': 100
+    }
+})
+
+db.products.updateMany({}, {
+    $set: {
+        ratings: [90, 80, 70]
+    }
+})
+
+db.products.updateMany({}, {
+    $set: {
+        'ratings.$[element]' : 100
+    }
+}, {
+    arrayFilters: [
+        {
+            element: {
+                $gte: 80
+            }
+        }
+    ]
+})
